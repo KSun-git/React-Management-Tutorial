@@ -1,13 +1,63 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Customer from './components/Customer'
+
+const customers = [
+  {
+    'id' : 'kch',
+    'image' : 'https://placeimg.com/64/64/1',
+    'name' : '김철수',
+    'birthday' : '961222',
+    'gender' : '남자',
+    'job' : '프로그래머'
+  },
+  {
+    'id' : 'kyh',
+    'image' : 'https://placeimg.com/64/64/2',
+    'name' : '김영희',
+    'birthday' : '960305',
+    'gender' : '여자',
+    'job' : '프로그래머'
+  }
+]
 
 class App extends Component{
   render() {
     return (
-      <div className="gray-background">
-        <img src={logo} lat="logo" />
-        <h2>Let's develop management system!</h2>
+      <div>
+        {/*
+        <Customer 
+          id={customer[0].id}
+          image={customer[0].image}
+          name={customer[0].name}
+          birthday={customer[0].birthday}
+          gender={customer[0].gender}
+          job={customer[0].job}
+        />
+        <Customer 
+          id={customer[1].id}
+          image={customer[1].image}
+          name={customer[1].name}
+          birthday={customer[1].birthday}
+          gender={customer[1].gender}
+          job={customer[1].job}
+        />
+        */}
+        {
+          customers.map(c => {
+            return(
+              <Customer
+                key={c.id}
+                id={c.id}
+                image={c.image}
+                name={c.name}
+                birthday={c.birthday}
+                gender={c.gender}
+                job={c.job}
+              />
+            );
+          })
+      }
       </div>
     );
   }
