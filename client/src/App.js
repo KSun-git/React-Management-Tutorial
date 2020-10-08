@@ -12,34 +12,32 @@ import { withStyles } from '@material-ui/core/styles';
 const styles= theme => ({
   root:{
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     overflowX: 'auto'
   },
   talbe:{
     minWidth:1080
   }
-})
-
-const customers = [
-  {
-    'id' : 'kch',
-    'image' : 'https://placeimg.com/64/64/1',
-    'name' : '김철수',
-    'birthday' : '961222',
-    'gender' : '남자',
-    'job' : '프로그래머'
-  },
-  {
-    'id' : 'kyh',
-    'image' : 'https://placeimg.com/64/64/2',
-    'name' : '김영희',
-    'birthday' : '960305',
-    'gender' : '여자',
-    'job' : '프로그래머'
-  }
-]
+});
 
 class App extends Component{
+
+  state = {
+    customers: ""
+  }
+
+  componentDidMount(){
+    this.callApi()
+      .then(res => this.setState({customers: res}))
+      .catch(err => console.log(err));
+  }
+
+  callApi = async () => {
+    const response = await fetch('/api/customers');
+    const body = await response.json();
+    return body;
+  };
+
   render() {
     const {classes} = this.props;
     return (
@@ -48,7 +46,7 @@ class App extends Component{
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>번호</TableCell>
+                <TableCell>아이디</TableCell>
                 <TableCell>이미지</TableCell>
                 <TableCell>이름</TableCell>
                 <TableCell>생년월일</TableCell>
@@ -57,8 +55,8 @@ class App extends Component{
               </TableRow>
             </TableHead>
             <TableBody>
-              {
-                customers.map(c => {
+              {this.state.customers ? 
+                this.state.customers.map(c => {
                   return(
                     <Customer 
                       key={c.id}
@@ -70,8 +68,7 @@ class App extends Component{
                       job={c.job}
                     />
                   );
-                })
-              }
+                }) : <TableRow><TableCell>-</TableCell></TableRow>}
             </TableBody>
           </Table>
         </Paper>
